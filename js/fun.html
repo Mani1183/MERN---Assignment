@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Functions & Arrays</title>
+</head>
+<body>
+    <h2>Student Names</h2>
+    <button onclick="showNames()">Display Names</button>
+    <br><br>
+    <input type="text" id="searchName" placeholder="Enter name to search">
+    <button onclick="searchName()">Search</button>
+    <p id="output"></p>
+    <script>
+         let students = ["Manish", "Aman", "Rahul", "Shivam", "Karan"];
+        function showNames() {
+            let text = "";
+            for (let i = 0; i < students.length; i++) {
+                text += students[i] + "<br>";
+            }
+            document.getElementById("output").innerHTML = text;
+        }
+        function searchName() {
+            let name = document.getElementById("searchName").value;
+            let found = false;
+            for (let i = 0; i < students.length; i++) {
+                if (students[i] === name) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                document.getElementById("output").innerText =
+                    name + " is found in the list.";
+            } else {
+                document.getElementById("output").innerText =
+                    name + " is not found in the list.";
+            }
+        }
+    </script>
+</body>
+</html>

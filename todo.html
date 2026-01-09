@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple To-Do List</title>
+</head>
+<body>
+
+    <h2>To-Do List</h2>
+
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        window.onload = loadTasks;
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let taskText = taskInput.value;
+
+            if (taskText === "") {
+                alert("Please enter a task");
+                return;
+            }
+
+            let tasks = getTasks();
+            tasks.push(taskText);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+
+            taskInput.value = "";
+            loadTasks();
+        }
+        function loadTasks() {
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+
+            let tasks = getTasks();
+
+            for (let i = 0; i < tasks.length; i++) {
+                let li = document.createElement("li");
+
+                li.innerText = tasks[i] + " ";
+
+                let editBtn = document.createElement("button");
+                editBtn.innerText = "Edit";
+                editBtn.onclick = function () {
+                    editTask(i);
+                };
+
+                let deleteBtn = document.createElement("button");
+                deleteBtn.innerText = "Delete";
+                deleteBtn.onclick = function () {
+                    deleteTask(i);
+                };
+
+                li.appendChild(editBtn);
+                li.appendChild(deleteBtn);
+                taskList.appendChild(li);
+            }
+        }
+        function editTask(index) {
+            let tasks = getTasks();
+            let newTask = prompt("Edit task:", tasks[index]);
+
+            if (newTask !== null && newTask !== "") {
+                tasks[index] = newTask;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                loadTasks();
+            }
+        }
+        function deleteTask(index) {
+            let tasks = getTasks();
+            tasks.splice(index, 1);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            loadTasks();
+        }
+        function getTasks() {
+            let tasks = localStorage.getItem("tasks");
+            return tasks ? JSON.parse(tasks) : [];
+        }
+    </script>
+</body>
+</html>
